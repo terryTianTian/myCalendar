@@ -9,6 +9,18 @@ $(document).ready(function() {
         }
 	});
 
+
+	$(document).bind("addShiftBtn", function(event, action) {
+
+		var target = event.target;
+
+		$(target).parent().find("i.js-add").css("display", "block");
+
+
+
+
+	});
+
 	function setSchedule(date) {
 
 		$.ajax({
@@ -35,24 +47,24 @@ $(document).ready(function() {
 
 		var $td = $("td[data-date=" + dayNumber + "] .fc-day-content");
 		
-         var firstShift = "<li class = 'shift-person'>" + dayShifts[0] + '<i class="js-remove">✖</i>' + "</li>";
-         var secondShift = "<li class = 'shift-person'>" + dayShifts[1] + '<i class="js-remove">✖</i>' + "</li>";
-         var thirdShift = "<li class = 'shift-person'>" + dayShifts[2] + '<i class="js-remove">✖</i>' + "</li>";
+        var firstShift = "<li class = 'shift-person'>" + dayShifts[0] + '<i class="js-remove">✖</i>' + "</li>";
+        var secondShift = "<li class = 'shift-person'>" + dayShifts[1] + '<i class="js-remove">✖</i>' + "</li>";
+        var thirdShift = "<li class = 'shift-person'>" + dayShifts[2] + '<i class="js-remove">✖</i>' + "</li>";
 
 		html = '<div class="first shift">' +
 					'<span>1</span>' +
 					'<ul>' + firstShift + '</ul>' +
-					// '<i class="js-add" data-toggle="modal">+</i>' +
+					'<i class="js-add" data-toggle="modal">+</i>' +
 					'</div>' +
 					'<div class="second shift">' +
 					'<span>2</span>' +
 					'<ul>' + secondShift + '</ul>' +
-					// '<i class="js-add" data-toggle="modal" >+</i>' +
+					'<i class="js-add" data-toggle="modal" >+</i>' +
 					'</div>' +
 					'<div class="third shift">' +
 					'<span>3</span>' +
 					'<ul>' + thirdShift + '</ul>' +
-					// '<i class="js-add" data-toggle="modal">+</i>' +
+					'<i class="js-add" data-toggle="modal">+</i>' +
 					'</div>';
 
 		$td.append(html);
@@ -62,42 +74,18 @@ $(document).ready(function() {
 
 			$(el).sortable({
 
-			filter: '.js-remove',
-onFilter: function (evt) {
+				filter: '.js-remove',
+				onFilter: function (evt) {
 
-evt.item.parentNode.removeChild(evt.item);
+					var itemEl = evt.item;
 
-    },
-
-    onRemove : function (evt) {
-
-alert("onRemove");
-    },
-
-    onAdd : function (evt) {
-
-alert("onAdd")
-
-    }
-		
+					itemEl.parentNode.removeChild(evt.item);
+					$(el).trigger("addShiftBtn", "show");
 
 
 
-
-
-			});
-
-
-
-		});
-
-
-
-
+    			}
+    		});
+    	});
 	}
-
-
-	
-
-
 });
